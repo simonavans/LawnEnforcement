@@ -3,31 +3,36 @@
   "WorkspaceRootPath": "C:\\Users\\Simon\\dev\\3dg\\LawnEnforcement\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{1247EF9B-F301-41B2-838A-B7D28F106DC5}|LawnEnforcement.vcxproj|C:\\Users\\Simon\\dev\\3dg\\LawnEnforcement\\Scene.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{1247EF9B-F301-41B2-838A-B7D28F106DC5}|LawnEnforcement.vcxproj|solutionrelative:Scene.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{1247EF9B-F301-41B2-838A-B7D28F106DC5}|LawnEnforcement.vcxproj|C:\\Users\\Simon\\dev\\3dg\\LawnEnforcement\\Game.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{1247EF9B-F301-41B2-838A-B7D28F106DC5}|LawnEnforcement.vcxproj|solutionrelative:Game.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{1247EF9B-F301-41B2-838A-B7D28F106DC5}|LawnEnforcement.vcxproj|C:\\Users\\Simon\\dev\\3dg\\LawnEnforcement\\GameObject.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{1247EF9B-F301-41B2-838A-B7D28F106DC5}|LawnEnforcement.vcxproj|solutionrelative:GameObject.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{1247EF9B-F301-41B2-838A-B7D28F106DC5}|LawnEnforcement.vcxproj|C:\\Users\\Simon\\dev\\3dg\\LawnEnforcement\\GameObject.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{1247EF9B-F301-41B2-838A-B7D28F106DC5}|LawnEnforcement.vcxproj|solutionrelative:GameObject.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+      "AbsoluteMoniker": "D:0:0:{1247EF9B-F301-41B2-838A-B7D28F106DC5}|LawnEnforcement.vcxproj|C:\\Users\\Simon\\dev\\3dg\\LawnEnforcement\\LawnEnforcement.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{1247EF9B-F301-41B2-838A-B7D28F106DC5}|LawnEnforcement.vcxproj|solutionrelative:LawnEnforcement.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{1247EF9B-F301-41B2-838A-B7D28F106DC5}|LawnEnforcement.vcxproj|C:\\Users\\Simon\\dev\\3dg\\LawnEnforcement\\Game.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
       "RelativeMoniker": "D:0:0:{1247EF9B-F301-41B2-838A-B7D28F106DC5}|LawnEnforcement.vcxproj|solutionrelative:Game.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
+      "AbsoluteMoniker": "D:0:0:{1247EF9B-F301-41B2-838A-B7D28F106DC5}|LawnEnforcement.vcxproj|C:\\Users\\Simon\\dev\\3dg\\LawnEnforcement\\Scene.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{1247EF9B-F301-41B2-838A-B7D28F106DC5}|LawnEnforcement.vcxproj|solutionrelative:Scene.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{1247EF9B-F301-41B2-838A-B7D28F106DC5}|LawnEnforcement.vcxproj|C:\\Users\\Simon\\dev\\3dg\\LawnEnforcement\\GameObject.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{1247EF9B-F301-41B2-838A-B7D28F106DC5}|LawnEnforcement.vcxproj|solutionrelative:GameObject.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{1247EF9B-F301-41B2-838A-B7D28F106DC5}|LawnEnforcement.vcxproj|C:\\Users\\Simon\\dev\\3dg\\LawnEnforcement\\LawnTileComponent.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{1247EF9B-F301-41B2-838A-B7D28F106DC5}|LawnEnforcement.vcxproj|solutionrelative:LawnTileComponent.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{1247EF9B-F301-41B2-838A-B7D28F106DC5}|LawnEnforcement.vcxproj|C:\\Users\\Simon\\dev\\3dg\\LawnEnforcement\\Game.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{1247EF9B-F301-41B2-838A-B7D28F106DC5}|LawnEnforcement.vcxproj|solutionrelative:Game.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{1247EF9B-F301-41B2-838A-B7D28F106DC5}|LawnEnforcement.vcxproj|C:\\Users\\Simon\\dev\\3dg\\LawnEnforcement\\Scene.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
       "RelativeMoniker": "D:0:0:{1247EF9B-F301-41B2-838A-B7D28F106DC5}|LawnEnforcement.vcxproj|solutionrelative:Scene.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.39.33519\\include\\memory||{3B902123-F8A7-4915-9F01-361F908088D0}|"
+      "AbsoluteMoniker": "D:0:0:{1247EF9B-F301-41B2-838A-B7D28F106DC5}|LawnEnforcement.vcxproj|C:\\Users\\Simon\\dev\\3dg\\LawnEnforcement\\LawnTileComponent.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{1247EF9B-F301-41B2-838A-B7D28F106DC5}|LawnEnforcement.vcxproj|solutionrelative:LawnTileComponent.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     }
   ],
   "DocumentGroupContainers": [
@@ -37,7 +42,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 8,
+          "SelectedChildIndex": 2,
           "Children": [
             {
               "$type": "Bookmark",
@@ -49,15 +54,55 @@
             },
             {
               "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "LawnEnforcement.cpp",
+              "DocumentMoniker": "C:\\Users\\Simon\\dev\\3dg\\LawnEnforcement\\LawnEnforcement.cpp",
+              "RelativeDocumentMoniker": "LawnEnforcement.cpp",
+              "ToolTip": "C:\\Users\\Simon\\dev\\3dg\\LawnEnforcement\\LawnEnforcement.cpp",
+              "RelativeToolTip": "LawnEnforcement.cpp",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAACQAAAA8AAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2024-06-10T00:01:17.293Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
               "DocumentIndex": 6,
-              "Title": "memory",
-              "DocumentMoniker": "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.39.33519\\include\\memory",
-              "RelativeDocumentMoniker": "..\\..\\..\\..\\..\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.39.33519\\include\\memory",
-              "ToolTip": "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.39.33519\\include\\memory",
-              "RelativeToolTip": "..\\..\\..\\..\\..\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.39.33519\\include\\memory",
-              "ViewState": "AQIAACIHAAAAAAAAAAAjwD0HAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
-              "WhenOpened": "2024-06-09T20:08:40.32Z"
+              "Title": "Scene.h",
+              "DocumentMoniker": "C:\\Users\\Simon\\dev\\3dg\\LawnEnforcement\\Scene.h",
+              "RelativeDocumentMoniker": "Scene.h",
+              "ToolTip": "C:\\Users\\Simon\\dev\\3dg\\LawnEnforcement\\Scene.h",
+              "RelativeToolTip": "Scene.h",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAoAAAAXAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2024-06-09T22:59:45.037Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "Game.h",
+              "DocumentMoniker": "C:\\Users\\Simon\\dev\\3dg\\LawnEnforcement\\Game.h",
+              "RelativeDocumentMoniker": "Game.h",
+              "ToolTip": "C:\\Users\\Simon\\dev\\3dg\\LawnEnforcement\\Game.h",
+              "RelativeToolTip": "Game.h",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAA4AAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2024-06-09T22:56:50.737Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Game.cpp",
+              "DocumentMoniker": "C:\\Users\\Simon\\dev\\3dg\\LawnEnforcement\\Game.cpp",
+              "RelativeDocumentMoniker": "Game.cpp",
+              "ToolTip": "C:\\Users\\Simon\\dev\\3dg\\LawnEnforcement\\Game.cpp",
+              "RelativeToolTip": "Game.cpp",
+              "ViewState": "AQIAAAQAAAAAAAAAAAAjwEgAAABVAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2024-06-09T22:39:17.817Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -67,67 +112,46 @@
               "RelativeDocumentMoniker": "GameObject.cpp",
               "ToolTip": "C:\\Users\\Simon\\dev\\3dg\\LawnEnforcement\\GameObject.cpp",
               "RelativeToolTip": "GameObject.cpp",
-              "ViewState": "AQIAAA8AAAAAAAAAAAAAACMAAAAAAAAA",
+              "ViewState": "AQIAAAgAAAAAAAAAAAAgwCAAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2024-06-09T20:01:05.774Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "GameObject.h",
-              "DocumentMoniker": "C:\\Users\\Simon\\dev\\3dg\\LawnEnforcement\\GameObject.h",
-              "RelativeDocumentMoniker": "GameObject.h",
-              "ToolTip": "C:\\Users\\Simon\\dev\\3dg\\LawnEnforcement\\GameObject.h",
-              "RelativeToolTip": "GameObject.h",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAABUAAAAFAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
-              "WhenOpened": "2024-06-09T19:57:50.535Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "Game.h",
-              "DocumentMoniker": "C:\\Users\\Simon\\dev\\3dg\\LawnEnforcement\\Game.h",
-              "RelativeDocumentMoniker": "Game.h",
-              "ToolTip": "C:\\Users\\Simon\\dev\\3dg\\LawnEnforcement\\Game.h",
-              "RelativeToolTip": "Game.h",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAA0AAAARAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
-              "WhenOpened": "2024-06-09T19:50:08.736Z"
+              "WhenOpened": "2024-06-09T22:27:19.326Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 4,
-              "Title": "Game.cpp",
-              "DocumentMoniker": "C:\\Users\\Simon\\dev\\3dg\\LawnEnforcement\\Game.cpp",
-              "RelativeDocumentMoniker": "Game.cpp",
-              "ToolTip": "C:\\Users\\Simon\\dev\\3dg\\LawnEnforcement\\Game.cpp",
-              "RelativeToolTip": "Game.cpp",
-              "ViewState": "AQIAAAMAAAAAAAAAAAAAABsAAAAyAAAA",
+              "Title": "LawnTileComponent.cpp",
+              "DocumentMoniker": "C:\\Users\\Simon\\dev\\3dg\\LawnEnforcement\\LawnTileComponent.cpp",
+              "RelativeDocumentMoniker": "LawnTileComponent.cpp",
+              "ToolTip": "C:\\Users\\Simon\\dev\\3dg\\LawnEnforcement\\LawnTileComponent.cpp",
+              "RelativeToolTip": "LawnTileComponent.cpp",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAIMAAAANAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2024-06-09T19:49:32.121Z"
+              "WhenOpened": "2024-06-09T21:50:25.457Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "Scene.h",
-              "DocumentMoniker": "C:\\Users\\Simon\\dev\\3dg\\LawnEnforcement\\Scene.h",
-              "RelativeDocumentMoniker": "Scene.h",
-              "ToolTip": "C:\\Users\\Simon\\dev\\3dg\\LawnEnforcement\\Scene.h",
-              "RelativeToolTip": "Scene.h",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAABcAAAALAAAA",
+              "DocumentIndex": 7,
+              "Title": "LawnTileComponent.h",
+              "DocumentMoniker": "C:\\Users\\Simon\\dev\\3dg\\LawnEnforcement\\LawnTileComponent.h",
+              "RelativeDocumentMoniker": "LawnTileComponent.h",
+              "ToolTip": "C:\\Users\\Simon\\dev\\3dg\\LawnEnforcement\\LawnTileComponent.h",
+              "RelativeToolTip": "LawnTileComponent.h",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAABMAAAAVAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
-              "WhenOpened": "2024-06-09T19:48:48.378Z"
+              "WhenOpened": "2024-06-09T21:43:49.941Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 2,
               "Title": "Scene.cpp",
               "DocumentMoniker": "C:\\Users\\Simon\\dev\\3dg\\LawnEnforcement\\Scene.cpp",
               "RelativeDocumentMoniker": "Scene.cpp",
               "ToolTip": "C:\\Users\\Simon\\dev\\3dg\\LawnEnforcement\\Scene.cpp",
               "RelativeToolTip": "Scene.cpp",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAA4AAAATAAAA",
+              "ViewState": "AQIAAAwAAAAAAAAAAAAAAG4AAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
               "WhenOpened": "2024-06-09T19:37:59.044Z",
               "EditorCaption": ""

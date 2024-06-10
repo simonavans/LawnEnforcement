@@ -2,11 +2,9 @@
 #include <GLFW/glfw3.h>
 #include "tigl.h"
 #include <iostream>
-#include <glm/ext/matrix_clip_space.hpp>
+#include <Windows.h>
 
-#include "FirstPersonCamera.h"
 #include "Game.h"
-#include "GameObject.h"
 
 #pragma comment(lib, "glfw3.lib")
 #pragma comment(lib, "glew32s.lib")
@@ -53,7 +51,7 @@ int main()
 
 	tigl::init();
 
-	srand(static_cast<unsigned int>(glfwGetTime()));
+	srand(static_cast<unsigned int>(GetTickCount()));
 	lastFrameTime = glfwGetTime();
 	game = std::make_shared<Game>(window);
 

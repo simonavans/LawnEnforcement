@@ -40,7 +40,7 @@ void Game::update(const float deltaTime)
 	camera_->update(window_, deltaTime);
 
 	glm::vec3 cameraPosition = camera_->getPosition();
-	glm::vec2 cameraRotation = camera_->getRotation(); 
+	const glm::vec2 cameraRotation = camera_->getRotation(); 
 	glm::vec3 forwardVec = {
 		sin(cameraRotation.y),
 		0,
@@ -55,25 +55,54 @@ void Game::update(const float deltaTime)
 
 	static int clickCode;
 
+	int flagsPlaced = 0;
 	for (const auto& object : scene->objects)
 	{
-		auto lawnTile = object->getComponent<LawnTileComponent>();
-		if (lawnTile)
+		const auto lawnTile = object->getComponent<LawnTileComponent>();
+		if (!lawnTile)
+			continue;
+
+		if (abs(object->position.x - forwardPos.x) < 0.5f && abs(object->position.z - forwardPos.z) < 0.5f)
 		{
-			if (abs(object->position.x - forwardPos.x) < 0.5f && abs(object->position.z - forwardPos.z) < 0.5f)
+			const int keyEvent = glfwGetMouseButton(window_, GLFW_MOUSE_BUTTON_1);
+			if (keyEvent == GLFW_PRESS && clickCode != GLFW_RELEASE)
 			{
-				int keyEvent = glfwGetMouseButton(window_, GLFW_MOUSE_BUTTON_1);
-				if (keyEvent == GLFW_PRESS && clickCode != GLFW_RELEASE)
-				{
-					clickCode = GLFW_RELEASE;
+				clickCode = GLFW_RELEASE;
+				if (equippedCube == wieldingCube1_)
 					lawnTile->onClick(TILE_ACTION_MOW);
+				else if (equippedCube == wieldingCube2_ && !lawnTile->mowed && !lawnTile->reserved)
+				{
+					lawnTile->onClick(TILE_ACTION_FLAG);
+
+					if (lawnTile->flagged)
+						flagsPlaced++;
+					else
+						flagsPlaced--;
+
 				}
-				else if (keyEvent == GLFW_RELEASE)
-					clickCode = -1;
-				lawnTile->selected = true;
 			}
-			else if (lawnTile->selected == true)
-				lawnTile->selected = false;
+			else if (keyEvent == GLFW_RELEASE)
+				clickCode = -1;
+			lawnTile->selected = true;
+		}
+		else if (lawnTile->selected == true)
+			lawnTile->selected = false;
+	}
+	
+	if (flagsPlaced == 15)
+	{
+		for (const auto& row : scene->lawnTiles2D)
+			for (const auto& tile : row)
+			{
+				if (tile->tileType == TILE_TYPE_BOMB && tile->flagged)
+					flagsPlaced--;
+			}
+
+		if (flagsPlaced == 0)
+		{
+			for (const auto& row : scene->lawnTiles2D)
+				for (const auto& tile : row)
+					tile->mowed = true;
 		}
 	}
 

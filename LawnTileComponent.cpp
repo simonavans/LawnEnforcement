@@ -1,10 +1,16 @@
 #include "LawnTileComponent.h"
 
+#include <iostream>
+#include <stdexcept>
+
 #include "Texture.h"
 #include "TileAction.h"
 
-LawnTileComponent::LawnTileComponent(const glm::vec3& size, const std::shared_ptr<Texture>& texture, const float greenMult)
-	: texture_(texture), greenMult_(greenMult)
+LawnTileComponent::LawnTileComponent(
+		const glm::vec3& size,
+		const std::shared_ptr<std::vector<std::shared_ptr<Texture>>>& digitTextures,
+		const float greenMult
+	)	: greenMult_(greenMult), digitTextures_(digitTextures)
 {
 #pragma region mowedVerts_
 	//bottom
@@ -59,26 +65,26 @@ LawnTileComponent::LawnTileComponent(const glm::vec3& size, const std::shared_pt
 
 	//left
 	mowedVerts_.push_back(tigl::Vertex::PTN(glm::vec3(size.x, -size.y, -size.z), glm::vec2(1, 0), glm::vec3(1, 0, 0)));
-	mowedVerts_.push_back(tigl::Vertex::PTN(glm::vec3(size.x, size.y, -size.z), glm::vec2(1, 1), glm::vec3(1, 0, 0)));
-	mowedVerts_.push_back(tigl::Vertex::PTN(glm::vec3(size.x, size.y, size.z), glm::vec2(0, 1), glm::vec3(1, 0, 0)));
+	mowedVerts_.push_back(tigl::Vertex::PTN(glm::vec3(size.x, size.y * 2, -size.z), glm::vec2(1, 1), glm::vec3(1, 0, 0)));
+	mowedVerts_.push_back(tigl::Vertex::PTN(glm::vec3(size.x, size.y * 2, size.z), glm::vec2(0, 1), glm::vec3(1, 0, 0)));
 	mowedVerts_.push_back(tigl::Vertex::PTN(glm::vec3(size.x, -size.y, size.z), glm::vec2(0, 0), glm::vec3(1, 0, 0)));
 
 	//right
 	mowedVerts_.push_back(tigl::Vertex::PTN(glm::vec3(-size.x, -size.y, -size.z), glm::vec2(0, 0), glm::vec3(-1, 0, 0)));
-	mowedVerts_.push_back(tigl::Vertex::PTN(glm::vec3(-size.x, size.y, -size.z), glm::vec2(0, 1), glm::vec3(-1, 0, 0)));
-	mowedVerts_.push_back(tigl::Vertex::PTN(glm::vec3(-size.x, size.y, size.z), glm::vec2(1, 1), glm::vec3(-1, 0, 0)));
+	mowedVerts_.push_back(tigl::Vertex::PTN(glm::vec3(-size.x, size.y * 2, -size.z), glm::vec2(0, 1), glm::vec3(-1, 0, 0)));
+	mowedVerts_.push_back(tigl::Vertex::PTN(glm::vec3(-size.x, size.y * 2, size.z), glm::vec2(1, 1), glm::vec3(-1, 0, 0)));
 	mowedVerts_.push_back(tigl::Vertex::PTN(glm::vec3(-size.x, -size.y, size.z), glm::vec2(1, 0), glm::vec3(-1, 0, 0)));
 
 	//back
 	mowedVerts_.push_back(tigl::Vertex::PTN(glm::vec3(-size.x, -size.y, -size.z), glm::vec2(0, 0), glm::vec3(0, 0, -1)));
-	mowedVerts_.push_back(tigl::Vertex::PTN(glm::vec3(-size.x, size.y, -size.z), glm::vec2(0, 1), glm::vec3(0, 0, -1)));
-	mowedVerts_.push_back(tigl::Vertex::PTN(glm::vec3(size.x, size.y, -size.z), glm::vec2(1, 1), glm::vec3(0, 0, -1)));
+	mowedVerts_.push_back(tigl::Vertex::PTN(glm::vec3(-size.x, size.y * 2, -size.z), glm::vec2(0, 1), glm::vec3(0, 0, -1)));
+	mowedVerts_.push_back(tigl::Vertex::PTN(glm::vec3(size.x, size.y * 2, -size.z), glm::vec2(1, 1), glm::vec3(0, 0, -1)));
 	mowedVerts_.push_back(tigl::Vertex::PTN(glm::vec3(size.x, -size.y, -size.z), glm::vec2(1, 0), glm::vec3(0, 0, -1)));
 
 	//front
 	mowedVerts_.push_back(tigl::Vertex::PTN(glm::vec3(-size.x, -size.y, size.z), glm::vec2(0, 0), glm::vec3(0, 0, 1)));
-	mowedVerts_.push_back(tigl::Vertex::PTN(glm::vec3(-size.x, size.y, size.z), glm::vec2(0, 1), glm::vec3(0, 0, 1)));
-	mowedVerts_.push_back(tigl::Vertex::PTN(glm::vec3(size.x, size.y, size.z), glm::vec2(1, 1), glm::vec3(0, 0, 1)));
+	mowedVerts_.push_back(tigl::Vertex::PTN(glm::vec3(-size.x, size.y * 2, size.z), glm::vec2(0, 1), glm::vec3(0, 0, 1)));
+	mowedVerts_.push_back(tigl::Vertex::PTN(glm::vec3(size.x, size.y * 2, size.z), glm::vec2(1, 1), glm::vec3(0, 0, 1)));
 	mowedVerts_.push_back(tigl::Vertex::PTN(glm::vec3(size.x, -size.y, size.z), glm::vec2(1, 0), glm::vec3(0, 0, 1)));
 #pragma endregion
 }
@@ -86,19 +92,29 @@ LawnTileComponent::LawnTileComponent(const glm::vec3& size, const std::shared_pt
 void LawnTileComponent::draw()
 {
 	tigl::shader->enableColorMult(true);
-	if (selected && !mowed)
+	if (selected && !mowed && !reserved)
 		tigl::shader->setColorMult(glm::vec4(0.7f, greenMult_, 0.7f, 1));
 	else
 		tigl::shader->setColorMult(glm::vec4(0, greenMult_, 0, 1));
 
-	texture_->bind();
+	if (flagged)
+		digitTextures_->at(9)->bind();
+	else if ((mowed || reserved) && tileType != TILE_TYPE_BOMB)
+		digitTextures_->at(tileType)->bind();
+	else
+		digitTextures_->at(0)->bind();
 
-	if (mowed)
+	if (mowed || reserved)
 		tigl::drawVertices(GL_QUADS, unmowedVerts_);
 	else
 		tigl::drawVertices(GL_QUADS, mowedVerts_);
 
-	texture_->unbind();
+	if (flagged)
+		digitTextures_->at(9)->unbind();
+	else if ((mowed || reserved) && tileType != TILE_TYPE_BOMB)
+		digitTextures_->at(tileType)->unbind();
+	else
+		digitTextures_->at(0)->unbind();
 
 	tigl::shader->enableColorMult(false);
 }
@@ -109,8 +125,11 @@ void LawnTileComponent::onClick(const TileAction action)
 	{
 	case TILE_ACTION_MOW:
 		mowed = true;
+		if (tileType == TILE_TYPE_BOMB)
+			throw std::runtime_error("Ur dead");
 		break;
 	case TILE_ACTION_FLAG:
+		flagged = !flagged;
 		break;
 	}
 }
