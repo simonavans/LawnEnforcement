@@ -54,18 +54,18 @@ Scene::Scene(Game* game, std::vector<std::shared_ptr<GameObject>>& extraObjects)
 		lawnTiles2D.push_back(lawnTiles1D);
 	}
 
-	int bombsPlaced = 0;
-	while (bombsPlaced < 15)
+	int minesPlaced = 0;
+	while (minesPlaced < 15)
 	{
-		while (bombsPlaced < 15)
+		while (minesPlaced < 15)
 		{
 			const int randX = rand() % 10;
 			const int randZ = rand() % 10;
 
 			if (lawnTiles2D[randZ][randX]->tileType == TILE_TYPE_NONE)
 			{
-				lawnTiles2D[randZ][randX]->tileType = TILE_TYPE_BOMB;
-				bombsPlaced++;
+				lawnTiles2D[randZ][randX]->tileType = TILE_TYPE_MINE;
+				minesPlaced++;
 			}
 
 		}
@@ -80,8 +80,8 @@ Scene::Scene(Game* game, std::vector<std::shared_ptr<GameObject>>& extraObjects)
 					continue;
 
 				const std::shared_ptr<LawnTileComponent> tile = lawnTiles2D[reservedY][reservedX];
-				if (tile->tileType == TILE_TYPE_BOMB)
-					bombsPlaced--;
+				if (tile->tileType == TILE_TYPE_MINE)
+					minesPlaced--;
 				tile->tileType = TILE_TYPE_NONE;
 				tile->reserved = true;
 			}
@@ -91,9 +91,9 @@ Scene::Scene(Game* game, std::vector<std::shared_ptr<GameObject>>& extraObjects)
 		for (int x = 0; x < 10; x++)
 		{
 			const std::shared_ptr<LawnTileComponent> tile = lawnTiles2D[y][x];
-			int bombNeighbors = 0;
+			int mineNeighbors = 0;
 
-			if (tile->tileType == TILE_TYPE_BOMB)
+			if (tile->tileType == TILE_TYPE_MINE)
 				continue;
 
 			for (int neighborY = -1; neighborY <= 1; neighborY++)
@@ -101,12 +101,12 @@ Scene::Scene(Game* game, std::vector<std::shared_ptr<GameObject>>& extraObjects)
 				{
 					try
 					{
-						if (lawnTiles2D.at(y + neighborY).at(x + neighborX)->tileType == TILE_TYPE_BOMB)
-							bombNeighbors++;
+						if (lawnTiles2D.at(y + neighborY).at(x + neighborX)->tileType == TILE_TYPE_MINE)
+							mineNeighbors++;
 					}
 					catch (const std::out_of_range&) {}
 				}
-			tile->tileType = static_cast<TileType>(bombNeighbors);
+			tile->tileType = static_cast<TileType>(mineNeighbors);
 		}
 }
 

@@ -62,7 +62,7 @@ void Game::update(const float deltaTime)
 		if (!lawnTile)
 			continue;
 
-		if (lawnTile->tileType == TILE_TYPE_BOMB && lawnTile->flagged)
+		if (lawnTile->tileType == TILE_TYPE_MINE && lawnTile->flagged)
 			correctFlagsPlaced++;
 
 		if (abs(object->position.x - forwardPos.x) < 0.5f && abs(object->position.z - forwardPos.z) < 0.5f)
@@ -89,7 +89,7 @@ void Game::update(const float deltaTime)
 		bool gameWon = true;
 		for (const auto& row : scene->lawnTiles2D)
 			for (const auto& tile : row)
-				if (tile->tileType != TILE_TYPE_NONE && tile->tileType != TILE_TYPE_BOMB && !tile->mowed && !tile->reserved)
+				if (tile->tileType != TILE_TYPE_NONE && tile->tileType != TILE_TYPE_MINE && !tile->mowed && !tile->reserved)
 					gameWon = false;
 
 		if (gameWon)

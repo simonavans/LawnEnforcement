@@ -1,0 +1,8 @@
+// The lore
+
+
+// --- GAME SETTINGS ---
+
+// Map size (n x n)
+size: 10
+

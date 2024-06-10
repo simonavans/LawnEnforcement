@@ -101,7 +101,7 @@ void LawnTileComponent::draw()
 
 	if (flagged)
 		digitTextures_->at(9)->bind();
-	else if ((mowed || reserved) && tileType != TILE_TYPE_BOMB)
+	else if ((mowed || reserved) && tileType != TILE_TYPE_MINE)
 		digitTextures_->at(tileType)->bind();
 	else
 		digitTextures_->at(0)->bind();
@@ -113,7 +113,7 @@ void LawnTileComponent::draw()
 
 	if (flagged)
 		digitTextures_->at(9)->unbind();
-	else if ((mowed || reserved) && tileType != TILE_TYPE_BOMB)
+	else if ((mowed || reserved) && tileType != TILE_TYPE_MINE)
 		digitTextures_->at(tileType)->unbind();
 	else
 		digitTextures_->at(0)->unbind();
@@ -126,7 +126,7 @@ void LawnTileComponent::onClick(const TileAction action)
 	switch (action)
 	{
 	case TILE_ACTION_MOW:
-		if (tileType == TILE_TYPE_BOMB && !mowed)
+		if (tileType == TILE_TYPE_MINE && !mowed)
 			throw std::runtime_error("Ur dead");
 		mowed = true;
 		break;
