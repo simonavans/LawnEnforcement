@@ -126,9 +126,9 @@ void Scene::draw() const
 	tigl::shader->enableLighting(true);
 	tigl::shader->setLightCount(1);
 	tigl::shader->setLightDirectional(0, false);
-	tigl::shader->setLightPosition(0, glm::vec3(5, 5, 5));
-	tigl::shader->setLightAmbient(0, glm::vec3(0.1f, 0.1f, 0.15f));
-	tigl::shader->setLightDiffuse(0, glm::vec3(0.8f, 0.8f, 0.8f));
+	tigl::shader->setLightPosition(0, glm::vec3(5, 30, 5));
+	tigl::shader->setLightAmbient(0, glm::vec3(0.6f, 0.6f, 0.55f));
+	tigl::shader->setLightDiffuse(0, glm::vec3(0.2f, 0.4f, 0.4f));
 
 	for (const auto& object : objects)
 	{
