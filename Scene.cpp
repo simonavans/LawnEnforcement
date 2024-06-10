@@ -31,7 +31,7 @@ Scene::Scene(Game* game, std::vector<std::shared_ptr<GameObject>>& extraObjects,
 	groundPlane->position = glm::vec3(4.5f, -1.1f, 4.5f);
 	groundPlane->addComponent(std::make_shared<CubeComponent>(
 		glm::vec3(5, 0.1f, 5),
-		glm::vec4(0.3f, 0.4f, 0.2f, 0)));
+		glm::vec4(0.3f, 0.4f, 0.2f, 1)));
 	objects.push_back(groundPlane);
 
 	for (int z = 0; z < settings.mapSize; z++)
