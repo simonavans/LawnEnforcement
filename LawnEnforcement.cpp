@@ -55,7 +55,7 @@ int main()
 	srand(static_cast<unsigned int>(GetTickCount()));
 	lastFrameTime = glfwGetTime();
 
-	const SettingsLoader sl("config/info_and_game_settings.txt");
+	const SettingsLoader sl("config/game_settings.txt");
 	game = std::make_shared<Game>(window, sl.get());
 
 	while (!glfwWindowShouldClose(window))
