@@ -19,8 +19,8 @@ public:
 	std::shared_ptr<Scene> scene;
 
 	Game(GLFWwindow* window, Settings settings);
-	void update(float deltaTime);
-	void draw();
+	void update(float deltaTime) const;
+	void draw() const;
 	void swapTools();
 
 	std::shared_ptr<FirstPersonCamera> getCamera() const;

@@ -35,7 +35,7 @@ Game::Game(GLFWwindow* window, Settings settings) : window_(window), settings_(s
 	scene = std::make_shared<Scene>(this, extraObjects, settings);
 }
 
-void Game::update(const float deltaTime)
+void Game::update(const float deltaTime) const
 {
 	camera_->update(window_, deltaTime);
 
@@ -101,7 +101,7 @@ void Game::update(const float deltaTime)
 	scene->update(deltaTime);
 }
 
-void Game::draw()
+void Game::draw() const
 {
 	int viewport[4];
 	glGetIntegerv(GL_VIEWPORT, viewport);
