@@ -3,6 +3,8 @@
 
 // --- GAME SETTINGS ---
 
-// Map size (n x n)
-size: 10
+// Map size (n x n) (default: 10)
+size: 20
 
+// Amount of mines on the lawn (default: 15)
+mines: 15

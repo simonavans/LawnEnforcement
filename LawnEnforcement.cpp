@@ -5,6 +5,7 @@
 #include <Windows.h>
 
 #include "Game.h"
+#include "SettingsLoader.h"
 
 #pragma comment(lib, "glfw3.lib")
 #pragma comment(lib, "glew32s.lib")
@@ -53,7 +54,9 @@ int main()
 
 	srand(static_cast<unsigned int>(GetTickCount()));
 	lastFrameTime = glfwGetTime();
-	game = std::make_shared<Game>(window);
+
+	const SettingsLoader sl("config/info_and_game_settings.txt");
+	game = std::make_shared<Game>(window, sl.get());
 
 	while (!glfwWindowShouldClose(window))
 	{

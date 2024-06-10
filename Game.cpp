@@ -15,7 +15,7 @@
 #include "MyCppFrustrations.h"
 #include "TileAction.h"
 
-Game::Game(GLFWwindow* window) : window_(window)
+Game::Game(GLFWwindow* window, Settings settings) : window_(window), settings_(settings)
 {
 	camera_ = std::make_shared<FirstPersonCamera>(window);
 
@@ -32,7 +32,7 @@ Game::Game(GLFWwindow* window) : window_(window)
 
 	equippedCube = wieldingCube1_;
 
-	scene = std::make_shared<Scene>(this, extraObjects);
+	scene = std::make_shared<Scene>(this, extraObjects, settings);
 }
 
 void Game::update(const float deltaTime)
@@ -84,7 +84,7 @@ void Game::update(const float deltaTime)
 			lawnTile->selected = false;
 	}
 	
-	if (correctFlagsPlaced == 15)
+	if (correctFlagsPlaced == settings_.mines)
 	{
 		bool gameWon = true;
 		for (const auto& row : scene->lawnTiles2D)

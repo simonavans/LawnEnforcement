@@ -5,6 +5,7 @@
 
 #include "Texture.h"
 
+struct Settings;
 class Texture;
 class Game;
 class GameObject;
@@ -23,7 +24,7 @@ public:
 	// causes weird double-free issues (shared pointer may point to heap memory,
 	// thus causing double-free? Anyways, it's an edge case not discussed in the
 	// lessons, so I used the raw variant.
-	Scene(Game* game, std::vector<std::shared_ptr<GameObject>>& extraObjects);
-	void update(float deltaTime);
-	void draw();
+	Scene(Game* game, std::vector<std::shared_ptr<GameObject>>& extraObjects, Settings settings);
+	void update(float deltaTime) const;
+	void draw() const;
 };

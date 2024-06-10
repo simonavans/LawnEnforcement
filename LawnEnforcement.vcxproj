@@ -139,6 +139,7 @@
     <ClCompile Include="LawnTileComponent.cpp" />
     <ClCompile Include="ModelComponent.cpp" />
     <ClCompile Include="Scene.cpp" />
+    <ClCompile Include="SettingsLoader.cpp" />
     <ClCompile Include="Texture.cpp" />
     <ClCompile Include="tigl.cpp" />
   </ItemGroup>
@@ -153,6 +154,7 @@
     <ClInclude Include="ModelComponent.h" />
     <ClInclude Include="MyCppFrustrations.h" />
     <ClInclude Include="Scene.h" />
+    <ClInclude Include="SettingsLoader.h" />
     <ClInclude Include="stb_image.h" />
     <ClInclude Include="Texture.h" />
     <ClInclude Include="tigl.h" />

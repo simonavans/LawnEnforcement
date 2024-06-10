@@ -12,7 +12,7 @@
 #include "MyCppFrustrations.h"
 #include "TileType.h"
 
-Scene::Scene(Game* game, std::vector<std::shared_ptr<GameObject>>& extraObjects)
+Scene::Scene(Game* game, std::vector<std::shared_ptr<GameObject>>& extraObjects, const Settings settings)
 {
 	this->game_ = game;
 	objects.insert(objects.end(), extraObjects.begin(), extraObjects.end());
@@ -34,12 +34,12 @@ Scene::Scene(Game* game, std::vector<std::shared_ptr<GameObject>>& extraObjects)
 		glm::vec4(0.3f, 0.4f, 0.2f, 0)));
 	objects.push_back(groundPlane);
 
-	for (int z = 0; z < 10; z++)
+	for (int z = 0; z < settings.mapSize; z++)
 	{
 		std::vector<std::shared_ptr<LawnTileComponent>> lawnTiles1D;
-		for (int x = 0; x < 10; x++)
+		for (int x = 0; x < settings.mapSize; x++)
 		{
-			std::shared_ptr<GameObject> lawnTile = std::make_shared<GameObject>(game);
+			auto lawnTile = std::make_shared<GameObject>(game);
 			lawnTile->position = glm::vec3(x, -1, z);
 
 			float randNum = static_cast<float>(rand() % 3 + 5) / 10.0f;
@@ -55,12 +55,12 @@ Scene::Scene(Game* game, std::vector<std::shared_ptr<GameObject>>& extraObjects)
 	}
 
 	int minesPlaced = 0;
-	while (minesPlaced < 15)
+	while (minesPlaced < settings.mines)
 	{
-		while (minesPlaced < 15)
+		while (minesPlaced < settings.mines)
 		{
-			const int randX = rand() % 10;
-			const int randZ = rand() % 10;
+			const int randX = rand() % settings.mapSize;
+			const int randZ = rand() % settings.mapSize;
 
 			if (lawnTiles2D[randZ][randX]->tileType == TILE_TYPE_NONE)
 			{
@@ -87,8 +87,8 @@ Scene::Scene(Game* game, std::vector<std::shared_ptr<GameObject>>& extraObjects)
 			}
 	}
 
-	for (int y = 0; y < 10; y++)
-		for (int x = 0; x < 10; x++)
+	for (int y = 0; y < settings.mapSize; y++)
+		for (int x = 0; x < settings.mapSize; x++)
 		{
 			const std::shared_ptr<LawnTileComponent> tile = lawnTiles2D[y][x];
 			int mineNeighbors = 0;
@@ -110,14 +110,14 @@ Scene::Scene(Game* game, std::vector<std::shared_ptr<GameObject>>& extraObjects)
 		}
 }
 
-void Scene::update(const float deltaTime)
+void Scene::update(const float deltaTime) const
 {
 	for (const auto& object : objects)
 		object->update(deltaTime);
 }
 
 
-void Scene::draw()
+void Scene::draw() const
 {
 	tigl::shader->enableAlphaTest(true);
 	glEnable(GL_BLEND);
