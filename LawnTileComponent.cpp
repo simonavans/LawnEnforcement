@@ -127,7 +127,7 @@ void LawnTileComponent::onClick(const TileAction action)
 	{
 	case TILE_ACTION_MOW:
 		mowed = true;
-		if (tileType == TILE_TYPE_BOMB)
+		if (tileType == TILE_TYPE_BOMB && !mowed)
 			throw std::runtime_error("Ur dead");
 		break;
 	case TILE_ACTION_FLAG:

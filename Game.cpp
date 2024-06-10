@@ -55,12 +55,15 @@ void Game::update(const float deltaTime)
 
 	static int clickCode;
 
-	int flagsPlaced = 0;
+	int correctFlagsPlaced = 0;
 	for (const auto& object : scene->objects)
 	{
 		const auto lawnTile = object->getComponent<LawnTileComponent>();
 		if (!lawnTile)
 			continue;
+
+		if (lawnTile->tileType == TILE_TYPE_BOMB && lawnTile->flagged)
+			correctFlagsPlaced++;
 
 		if (abs(object->position.x - forwardPos.x) < 0.5f && abs(object->position.z - forwardPos.z) < 0.5f)
 		{
@@ -71,15 +74,7 @@ void Game::update(const float deltaTime)
 				if (equippedCube == wieldingCube1_)
 					lawnTile->onClick(TILE_ACTION_MOW);
 				else if (equippedCube == wieldingCube2_ && !lawnTile->mowed && !lawnTile->reserved)
-				{
 					lawnTile->onClick(TILE_ACTION_FLAG);
-
-					if (lawnTile->flagged)
-						flagsPlaced++;
-					else
-						flagsPlaced--;
-
-				}
 			}
 			else if (keyEvent == GLFW_RELEASE)
 				clickCode = -1;
@@ -89,21 +84,18 @@ void Game::update(const float deltaTime)
 			lawnTile->selected = false;
 	}
 	
-	if (flagsPlaced == 15)
+	if (correctFlagsPlaced == 15)
 	{
+		bool gameWon = true;
 		for (const auto& row : scene->lawnTiles2D)
 			for (const auto& tile : row)
-			{
-				if (tile->tileType == TILE_TYPE_BOMB && tile->flagged)
-					flagsPlaced--;
-			}
+				if (tile->tileType != TILE_TYPE_NONE && tile->tileType != TILE_TYPE_BOMB && !tile->mowed && !tile->reserved)
+					gameWon = false;
 
-		if (flagsPlaced == 0)
-		{
+		if (gameWon)
 			for (const auto& row : scene->lawnTiles2D)
 				for (const auto& tile : row)
 					tile->mowed = true;
-		}
 	}
 
 	scene->update(deltaTime);
