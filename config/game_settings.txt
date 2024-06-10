@@ -3,7 +3,7 @@
 // Tweak the number before a setting, save the file, and re-run the game for the changes to apply.
 
 // Map size (n x n) (default: 10)
-size: 20
+size: 10
 
 // Amount of mines on the lawn (default: 15)
 mines: 15

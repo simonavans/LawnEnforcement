@@ -39,10 +39,12 @@ int main()
 		{
 			game->swapTools();
 		});
-	glfwSetKeyCallback(window, [](GLFWwindow* window, const int key, int, int, int)
+	glfwSetKeyCallback(window, [](GLFWwindow* window, const int key, int, int action, int)
 		{
 			if (key == GLFW_KEY_ESCAPE)
 				glfwSetWindowShouldClose(window, true);
+			else if ((key == GLFW_KEY_UP || key == GLFW_KEY_DOWN || key == GLFW_KEY_E) && action == GLFW_PRESS)
+				game->swapTools();
 		});
 
 	// Used as VSync to prevent 100% GPU usage

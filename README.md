@@ -11,8 +11,9 @@ The game is controlled in first person mode. Look around by moving the mouse.
 
 The player can work with two Minesweeper tools: the lawn mower and the flag. Only one tool can be wielded at any
 time. The player starts off with the lawn mower equipped. With this tool, lawn tiles can be clicked to reveal their
-type (e.g. a bomb tile). By scrolling with the scroll wheel, the player equips the flag tool. Clicking lawn tiles
-with this tool equipped flags that tile. Scrolling again equips the lawn mower again.
+type (e.g. a bomb tile). By scrolling with the scroll wheel, pressing the up or down arrow or pressing e, the player
+equips the flag tool. Clicking lawn tiles with this tool equipped flags that tile. Hitting one of the mentioned keys
+again equips the lawn mower again.
 
 # Gameplay
 Don't know the game rules?? Alright, it's very simple:
