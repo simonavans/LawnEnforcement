@@ -56,6 +56,7 @@ void Game::update(const float deltaTime) const
 	static int clickCode;
 
 	int correctFlagsPlaced = 0;
+	bool gameOver = false;
 	for (const auto& object : scene->objects)
 	{
 		const auto lawnTile = object->getComponent<LawnTileComponent>();
@@ -72,7 +73,10 @@ void Game::update(const float deltaTime) const
 			{
 				clickCode = GLFW_RELEASE;
 				if (equippedCube == wieldingCube1_)
-					lawnTile->onClick(TILE_ACTION_MOW);
+				{
+					if (lawnTile->onClick(TILE_ACTION_MOW))
+						gameOver = true;
+				}
 				else if (equippedCube == wieldingCube2_ && !lawnTile->mowed && !lawnTile->reserved)
 					lawnTile->onClick(TILE_ACTION_FLAG);
 			}
@@ -82,6 +86,13 @@ void Game::update(const float deltaTime) const
 		}
 		else if (lawnTile->selected == true)
 			lawnTile->selected = false;
+	}
+
+	if (gameOver)
+	{
+		for (const auto& row : scene->lawnTiles2D)
+			for (const auto& tile : row)
+				tile->mowed = true;
 	}
 	
 	if (correctFlagsPlaced == settings_.mines)

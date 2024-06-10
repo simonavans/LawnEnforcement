@@ -99,7 +99,9 @@ void LawnTileComponent::draw()
 	else
 		tigl::shader->setColorMult(glm::vec4(0.5f, greenMult_, 0.5f, 1));
 
-	if (flagged)
+	if (mowed && tileType == TILE_TYPE_MINE)
+		digitTextures_->at(10)->bind();
+	else if (flagged)
 		digitTextures_->at(9)->bind();
 	else if ((mowed || reserved) && tileType != TILE_TYPE_MINE)
 		digitTextures_->at(tileType)->bind();
@@ -121,17 +123,19 @@ void LawnTileComponent::draw()
 	tigl::shader->enableColorMult(false);
 }
 
-void LawnTileComponent::onClick(const TileAction action)
+bool LawnTileComponent::onClick(const TileAction action)
 {
+	bool bombExploded = false;
 	switch (action)
 	{
 	case TILE_ACTION_MOW:
 		if (tileType == TILE_TYPE_MINE && !mowed)
-			throw std::runtime_error("Ur dead");
+			bombExploded = true;
 		mowed = true;
-		break;
+		return bombExploded;
 	case TILE_ACTION_FLAG:
 		flagged = !flagged;
-		break;
+		return false;
 	}
+	return false;
 }

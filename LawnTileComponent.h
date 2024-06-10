@@ -27,6 +27,6 @@ public:
 	);
 
 	void draw() override;
-	void onClick(TileAction action);
+	bool onClick(TileAction action);
 };
 

@@ -4,6 +4,7 @@
 #include "GameObject.h"
 #include "SettingsLoader.h"
 
+class Texture;
 class Scene;
 struct GLFWwindow;
 class FirstPersonCamera;

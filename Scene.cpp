@@ -1,6 +1,5 @@
 #include "Scene.h"
 
-#include <algorithm>
 #include <iostream>
 
 #include "CubeComponent.h"
@@ -26,8 +25,9 @@ Scene::Scene(Game* game, std::vector<std::shared_ptr<GameObject>>& extraObjects,
 		);
 	}
 	digitTextures.push_back(std::make_shared<Texture>("assets/textures/flag.png"));
+	digitTextures.push_back(std::make_shared<Texture>("assets/textures/bomb.png"));
 
-	std::shared_ptr<GameObject> groundPlane = std::make_shared<GameObject>(game);
+	const auto groundPlane = std::make_shared<GameObject>(game);
 	groundPlane->position = glm::vec3(4.5f, -1.1f, 4.5f);
 	groundPlane->addComponent(std::make_shared<CubeComponent>(
 		glm::vec3(5, 0.1f, 5),
