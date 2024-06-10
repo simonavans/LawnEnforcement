@@ -20,9 +20,9 @@ LawnTileComponent::LawnTileComponent(
 	unmowedVerts_.push_back(tigl::Vertex::PTN(glm::vec3(-size.x, -size.y, size.z), glm::vec2(0, 1), glm::vec3(0, -1, 0)));
 
 	//top
-	unmowedVerts_.push_back(tigl::Vertex::PTN(glm::vec3(-size.x, size.y, -size.z), glm::vec2(0, 0), glm::vec3(0, 1, 0)));
+	unmowedVerts_.push_back(tigl::Vertex::PTN(glm::vec3(-size.x, size.y, -size.z), glm::vec2(1, 1), glm::vec3(0, 1, 0)));
 	unmowedVerts_.push_back(tigl::Vertex::PTN(glm::vec3(size.x, size.y, -size.z), glm::vec2(1, 0), glm::vec3(0, 1, 0)));
-	unmowedVerts_.push_back(tigl::Vertex::PTN(glm::vec3(size.x, size.y, size.z), glm::vec2(1, 1), glm::vec3(0, 1, 0)));
+	unmowedVerts_.push_back(tigl::Vertex::PTN(glm::vec3(size.x, size.y, size.z), glm::vec2(0, 0), glm::vec3(0, 1, 0)));
 	unmowedVerts_.push_back(tigl::Vertex::PTN(glm::vec3(-size.x, size.y, size.z), glm::vec2(0, 1), glm::vec3(0, 1, 0)));
 
 	//left
@@ -58,9 +58,9 @@ LawnTileComponent::LawnTileComponent(
 	mowedVerts_.push_back(tigl::Vertex::PTN(glm::vec3(-size.x, -size.y, size.z), glm::vec2(0, 1), glm::vec3(0, -1, 0)));
 
 	//top
-	mowedVerts_.push_back(tigl::Vertex::PTN(glm::vec3(-size.x, size.y * 2, -size.z), glm::vec2(0, 0), glm::vec3(0, 1, 0)));
+	mowedVerts_.push_back(tigl::Vertex::PTN(glm::vec3(-size.x, size.y * 2, -size.z), glm::vec2(1, 1), glm::vec3(0, 1, 0)));
 	mowedVerts_.push_back(tigl::Vertex::PTN(glm::vec3(size.x, size.y * 2, -size.z), glm::vec2(1, 0), glm::vec3(0, 1, 0)));
-	mowedVerts_.push_back(tigl::Vertex::PTN(glm::vec3(size.x, size.y * 2, size.z), glm::vec2(1, 1), glm::vec3(0, 1, 0)));
+	mowedVerts_.push_back(tigl::Vertex::PTN(glm::vec3(size.x, size.y * 2, size.z), glm::vec2(0, 0), glm::vec3(0, 1, 0)));
 	mowedVerts_.push_back(tigl::Vertex::PTN(glm::vec3(-size.x, size.y * 2, size.z), glm::vec2(0, 1), glm::vec3(0, 1, 0)));
 
 	//left
@@ -92,10 +92,12 @@ LawnTileComponent::LawnTileComponent(
 void LawnTileComponent::draw()
 {
 	tigl::shader->enableColorMult(true);
-	if (selected && !mowed && !reserved)
-		tigl::shader->setColorMult(glm::vec4(0.7f, greenMult_, 0.7f, 1));
+	if (mowed || reserved)
+		tigl::shader->setColorMult(glm::vec4(0.4f, 0.6f, 0.4f, 1));
+	else if (selected && !mowed && !reserved)
+		tigl::shader->setColorMult(glm::vec4(0.4f, 0.3f, 0.4f, 1));
 	else
-		tigl::shader->setColorMult(glm::vec4(0, greenMult_, 0, 1));
+		tigl::shader->setColorMult(glm::vec4(0.5f, greenMult_, 0.5f, 1));
 
 	if (flagged)
 		digitTextures_->at(9)->bind();
