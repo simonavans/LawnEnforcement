@@ -12,113 +12,97 @@
 #include "Scene.h"
 #include "tigl.h"
 #include "GLFW/glfw3.h"
-#include "MyCppFrustrations.h"
 #include "TileAction.h"
 
 Game::Game(GLFWwindow* window, Settings settings) : window_(window), settings_(settings)
 {
 	camera_ = std::make_shared<FirstPersonCamera>(window);
 
-	std::vector<std::shared_ptr<GameObject>> extraObjects;
-	wieldingCube1_ = std::make_shared<GameObject>(this);
-	wieldingCube1_->addComponent(std::make_shared<ModelComponent>(
+	// Instantiate tools
+	std::vector<std::shared_ptr<GameObject>> tools;
+	lawnMowerTool_ = std::make_shared<GameObject>(this);
+	lawnMowerTool_->addComponent(std::make_shared<ModelComponent>(
 		"assets/LawnMower/source/LawnMower/LawnMower.obj"));
-	extraObjects.push_back(wieldingCube1_);
+	tools.push_back(lawnMowerTool_);
 
-	wieldingCube2_ = std::make_shared<GameObject>(this);
-	wieldingCube2_->addComponent(std::make_shared<ModelComponent>(
+	flagTool_ = std::make_shared<GameObject>(this);
+	flagTool_->addComponent(std::make_shared<ModelComponent>(
 		"assets/SmallerFlag/source/SmallerFlag/SmallerFlag.obj"));
-	extraObjects.push_back(wieldingCube2_);
+	tools.push_back(flagTool_);
 
-	equippedCube = wieldingCube1_;
+	equippedTool = lawnMowerTool_;
 
-	scene = std::make_shared<Scene>(this, extraObjects, settings);
+	scene = std::make_shared<Scene>(this, tools, settings);
 }
 
 void Game::update(const float deltaTime)
 {
 	camera_->update(window_, deltaTime);
 
-	glm::vec3 cameraPosition = camera_->getPosition();
-	const glm::vec2 cameraRotation = camera_->getRotation(); 
-	glm::vec3 forwardVec = {
-		sin(cameraRotation.y),
-		0,
-		-(cos(cameraRotation.y) * cos(cameraRotation.x)),
-	};
-	forwardVec = glm::normalize(forwardVec);
-	cameraPosition.y -= 0.7f;
-	const glm::vec3 forwardPos = cameraPosition + forwardVec;
+	// Set tool pos and rot to be in front of camera
+	const glm::vec3 cameraPos = camera_->getPosition();
+	const glm::vec2 cameraRot = camera_->getRotation(); 
+	const glm::vec3 forwardPos = getCameraForwardPos(cameraPos, cameraRot);
 
-	equippedCube->position = forwardPos;
-	equippedCube->rotation = { 0, -glm::degrees(cameraRotation.y) + 180, 0 };
-
-	static int clickCode;
+	equippedTool->position = forwardPos;
+	equippedTool->rotation = { 0, -glm::degrees(cameraRot.y) + 180, 0 };
 
 	int correctFlagsPlaced = 0;
+	bool allSafeTilesMowed = true;
 	for (const auto& object : scene->objects)
 	{
 		const auto lawnTile = object->getComponent<LawnTileComponent>();
 		if (!lawnTile)
 			continue;
 
+		if ((gameOver_ || gameWon_) && !lawnTile->mowed)
+			lawnTile->mowed = true;
+
 		if (lawnTile->tileType == TILE_TYPE_MINE && lawnTile->flagged)
 			correctFlagsPlaced++;
 
-		if (abs(object->position.x - forwardPos.x) < 0.5f && abs(object->position.z - forwardPos.z) < 0.5f)
+		// Check if this tile is mowed for game win condition
+		if (lawnTile->tileType != TILE_TYPE_NONE &&
+			lawnTile->tileType != TILE_TYPE_MINE &&
+			!lawnTile->mowed)
 		{
-			const int keyEvent = glfwGetMouseButton(window_, GLFW_MOUSE_BUTTON_1);
-			if (keyEvent == GLFW_PRESS && clickCode != GLFW_RELEASE)
-			{
-				clickCode = GLFW_RELEASE;
-				if (equippedCube == wieldingCube1_)
-				{
-					if (lawnTile->onClick(TILE_ACTION_MOW))
-						gameOver_ = true;
-				}
-				else if (equippedCube == wieldingCube2_ && !lawnTile->mowed && !lawnTile->reserved)
-					lawnTile->onClick(TILE_ACTION_FLAG);
-			}
-			else if (keyEvent == GLFW_RELEASE)
-				clickCode = -1;
-			lawnTile->selected = true;
+			allSafeTilesMowed = false;
 		}
-		else if (lawnTile->selected == true)
+
+		constexpr float maxDistanceToSelect = 0.5f;
+
+		// Handle tile selection and clicking
+		// Check if the tile is close enough to the tool
+		if (abs(object->position.x - forwardPos.x) < maxDistanceToSelect &&
+			abs(object->position.z - forwardPos.z) < maxDistanceToSelect &&
+			!lawnTile->mowed)
+		{
+			lawnTile->selected = true;
+			handleClick(lawnTile);
+		}
+		else if (lawnTile->selected)
 			lawnTile->selected = false;
 	}
 
-	if (gameOver_)
-	{
-		for (const auto& row : scene->lawnTiles2D)
-			for (const auto& tile : row)
-				tile->mowed = true;
-	}
-	
-	if (correctFlagsPlaced == settings_.mines)
-	{
-		gameWon_ = true;
-		for (const auto& row : scene->lawnTiles2D)
-			for (const auto& tile : row)
-				if (tile->tileType != TILE_TYPE_NONE && tile->tileType != TILE_TYPE_MINE && !tile->mowed && !tile->reserved)
-					gameWon_ = false;
-
-		if (gameWon_)
-			for (const auto& row : scene->lawnTiles2D)
-				for (const auto& tile : row)
-					tile->mowed = true;
-	}
+	// Game is won if all flags were placed correctly and all safe tiles were mowed
+	gameWon_ = correctFlagsPlaced == settings_.mines && allSafeTilesMowed;
 
 	scene->update(deltaTime);
 }
 
 void Game::draw() const
 {
+	constexpr glm::vec4 winColor(0.3f, 0.9f, 0.4f, 1.0f);
+	constexpr glm::vec4 loseColor(0.9f, 0.3f, 0.2f, 1.0f);
+	constexpr glm::vec4 skyColor(0.3f, 0.4f, 0.6f, 1.0f);
+
 	if (gameWon_)
-		glClearColor(0.3f, 0.9f, 0.4f, 1.0f);
+		glClearColor(winColor.x, winColor.y, winColor.z, winColor.w);
 	else if (gameOver_)
-		glClearColor(0.9f, 0.3f, 0.2f, 1.0f);
+		glClearColor(loseColor.x, loseColor.y, loseColor.z, loseColor.w);
 	else
-		glClearColor(0.3f, 0.4f, 0.6f, 1.0f);
+		glClearColor(skyColor.x, skyColor.y, skyColor.z, skyColor.w);
+
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	int viewport[4];
@@ -139,13 +123,51 @@ void Game::draw() const
 
 void Game::swapTools()
 {
-	if (equippedCube == wieldingCube1_)
-		equippedCube = wieldingCube2_;
+	if (equippedTool == lawnMowerTool_)
+		equippedTool = flagTool_;
 	else
-		equippedCube = wieldingCube1_;
+		equippedTool = lawnMowerTool_;
 }
 
-std::shared_ptr<FirstPersonCamera> Game::getCamera() const
+glm::vec3 Game::getCameraForwardPos(const glm::vec3 cameraPos, const glm::vec2 cameraRot)
 {
-	return camera_;
+	glm::vec3 pos = cameraPos;
+
+	// Calculate position forward of the camera
+	glm::vec3 forwardVec = {
+		sin(cameraRot.y),
+		0,
+		-(cos(cameraRot.y) * cos(cameraRot.x)),
+	};
+	forwardVec = glm::normalize(forwardVec);
+
+	// Lower position to make tools touch the ground
+	pos.y -= 0.7f;
+
+	return pos + forwardVec;
+}
+
+void Game::handleClick(const std::shared_ptr<LawnTileComponent>& lawnTile)
+{
+	static int clickCode;
+	const int mouseBtnEvent = glfwGetMouseButton(window_, GLFW_MOUSE_BUTTON_1);
+
+	// If button was pressed but not already pressed before
+	if (mouseBtnEvent == GLFW_PRESS && clickCode != GLFW_RELEASE)
+	{
+		// Set so the button is already pressed
+		clickCode = GLFW_RELEASE;
+
+		if (equippedTool == lawnMowerTool_)
+		{
+			lawnTile->onClick(TILE_ACTION_MOW);
+			if (lawnTile->tileType == TILE_TYPE_MINE)
+				gameOver_ = true;
+		}
+		else if (equippedTool == flagTool_)
+			lawnTile->onClick(TILE_ACTION_FLAG);
+	}
+	// If button was released, set click code to not be already pressed
+	else if (mouseBtnEvent == GLFW_RELEASE)
+		clickCode = -1;
 }

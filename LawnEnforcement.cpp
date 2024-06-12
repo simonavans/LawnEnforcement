@@ -35,6 +35,8 @@ int main()
 
 	glfwMakeContextCurrent(window);
 	glfwSetWindowSizeCallback(window, resizeWindow);
+
+	// Swap tools on scroll
 	glfwSetScrollCallback(window, [](GLFWwindow*, double, double)
 		{
 			game->swapTools();

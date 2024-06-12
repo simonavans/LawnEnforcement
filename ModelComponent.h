@@ -42,17 +42,15 @@ class ModelComponent : public DrawComponent
 		std::list<Face> faces;
 	};
 
-
-	std::vector<glm::vec3>	vertices;
-	std::vector<glm::vec3>	normals;
-	std::vector<glm::vec2>	texcoords;
-	std::vector<ObjGroup*> groups;
-	std::vector<MaterialInfo*> materials;
+	std::vector<glm::vec3> vertices_;
+	std::vector<glm::vec3> normals_;
+	std::vector<glm::vec2> texcoords_;
+	std::vector<ObjGroup*> groups_;
+	std::vector<MaterialInfo*> materials_;
 
 	void loadMaterialFile(const std::string &fileName, const std::string &dirName);
 public:
-	ModelComponent(const std::string &filename);
-	~ModelComponent(void);
+	ModelComponent(const std::string &fileName);
 
 	void draw() override;
 };

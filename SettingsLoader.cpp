@@ -14,7 +14,7 @@ Settings SettingsLoader::get() const
 	return settings_;
 }
 
-Settings SettingsLoader::readFile(const std::string& fileName) const
+Settings SettingsLoader::readFile(const std::string& fileName)
 {
 	Settings settings{10, 15};
 	std::ifstream ifs;

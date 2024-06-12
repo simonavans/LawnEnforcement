@@ -3,9 +3,9 @@
 
 #include "GameObject.h"
 
-// Don't mind this method declaration,
-// apparently C++ LOVES to complain if I don't
-// put this duplicate definition here ;)
+// C++ linker is a little silly because it complains when
+// this method is already defined in another translation
+// unit. So I have to do it the ugly way...
 template <class T>
 std::shared_ptr<T> GameObject::getComponent()
 {

@@ -16,17 +16,16 @@ class LawnTileComponent : public DrawComponent
 public:
 	bool selected = false;
 	bool mowed = false;
-	bool reserved = false;
 	bool flagged = false;
 	TileType tileType = TILE_TYPE_NONE;
 
-		LawnTileComponent(
+	LawnTileComponent(
 		const glm::vec3& size,
 		const std::shared_ptr<std::vector<std::shared_ptr<Texture>>>& digitTextures,
 		float greenMult
 	);
 
 	void draw() override;
-	bool onClick(TileAction action);
+	void onClick(TileAction action);
 };
 

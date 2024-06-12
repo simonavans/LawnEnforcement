@@ -4,7 +4,7 @@
 
 class Texture
 {
-	GLuint textureId;
+	GLuint textureId_;
 public:
 	int textureWidth;
 	int textureHeight;

@@ -7,8 +7,6 @@
 #include "tigl.h"
 #include "Texture.h"
 
-using tigl::Vertex;
-
 /**
 * Replaces a substring in a string
 */
@@ -32,10 +30,9 @@ static std::string replace(std::string str, const std::string &toReplace, const 
 static std::vector<std::string> split(std::string str, const std::string &seperator)
 {
 	std::vector<std::string> ret;
-	size_t index;
 	while(true)
 	{
-		index = str.find(seperator);
+		const size_t index = str.find(seperator);
 		if(index == std::string::npos)
 			break;
 		ret.push_back(str.substr(0, index));
@@ -48,81 +45,79 @@ static std::vector<std::string> split(std::string str, const std::string &sepera
 /**
 * Turns a string to lowercase
 */
-static inline std::string toLower(std::string data)
+static std::string toLower(std::string data)
 {
 	std::transform(data.begin(), data.end(), data.begin(), ::tolower);
 	return data;
 }
 
-
 /**
 * Cleans up a line for processing
 */
-static inline std::string cleanLine(std::string line)
+static std::string cleanLine(std::string line)
 {
 	line = replace(line, "\t", " ");
 	while (line.find("  ") != std::string::npos)
 		line = replace(line, "  ", " ");
-	if (line == "")
+	if (line.empty())
 		return "";
 	if (line[0] == ' ')
 		line = line.substr(1);
-	if (line == "")
+	if (line.empty())
 		return "";
 	if (line[line.length() - 1] == ' ')
 		line = line.substr(0, line.length() - 1);
 	return line;
 }
 
-
-
-
 /**
 * Loads an object model
 */
 ModelComponent::ModelComponent(const std::string &fileName)
 {
-	std::cout << "Loading " << fileName << std::endl;
+	std::cout << "Loading " << fileName << '\n';
 	std::string dirName = fileName;
-	if(dirName.rfind("/") != std::string::npos)
-		dirName = dirName.substr(0, dirName.rfind("/"));
-	if(dirName.rfind("\\") != std::string::npos)
-		dirName = dirName.substr(0, dirName.rfind("\\"));
+	if(dirName.rfind('/') != std::string::npos)
+		dirName = dirName.substr(0, dirName.rfind('/'));
+	if(dirName.rfind('\\') != std::string::npos)
+		dirName = dirName.substr(0, dirName.rfind('\\'));
 	if(fileName == dirName)
 		dirName = "";
-
 
 	std::ifstream pFile(fileName.c_str());
 
 	if (!pFile.is_open())
 	{
-		std::cout << "Could not open file " << fileName << std::endl;
+		std::cout << "Could not open file " << fileName << '\n';
 		return;
 	}
 
-
-	ObjGroup* currentGroup = new ObjGroup();
+	auto currentGroup = new ObjGroup();
 	currentGroup->materialIndex = -1;
-
 
 	while(!pFile.eof())
 	{
 		std::string line;
 		std::getline(pFile, line);
 		line = cleanLine(line);
-		if(line == "" || line[0] == '#') //skip empty or commented line
+		if(line.empty() || line[0] == '#') //skip empty or commented line
 			continue;
 
 		std::vector<std::string> params = split(line, " ");
 		params[0] = toLower(params[0]);
 
 		if(params[0] == "v")
-			vertices.push_back(glm::vec3((float)atof(params[1].c_str()), (float)atof(params[2].c_str()), (float)atof(params[3].c_str())));
-		else if(params[0] == "vn")
-			normals.push_back(glm::vec3((float)atof(params[1].c_str()), (float)atof(params[2].c_str()), (float)atof(params[3].c_str())));
-		else if(params[0] == "vt")
-			texcoords.push_back(glm::vec2((float)atof(params[1].c_str()), (float)atof(params[2].c_str())));
-		else if(params[0] == "f")
+			vertices_.emplace_back(static_cast<float>(atof(params[1].c_str())),
+			                       static_cast<float>(atof(params[2].c_str())),
+			                       static_cast<float>(atof(params[3].c_str())));
+		else if (params[0] == "vn")
+			normals_.emplace_back(static_cast<float>(atof(params[1].c_str())),
+			                      static_cast<float>(atof(params[2].c_str())),
+			                      static_cast<float>(atof(params[3].c_str())));
+		else if (params[0] == "vt")
+			texcoords_.emplace_back(static_cast<float>(atof(params[1].c_str())),
+			                        static_cast<float>(atof(params[2].c_str())));
+		else if (params[0] == "f")
 		{
 			for(size_t ii = 4; ii <= params.size(); ii++)
 			{
@@ -132,13 +127,13 @@ ModelComponent::ModelComponent(const std::string &fileName)
 				{
 					Vertex vertex;
 					std::vector<std::string> indices = split(params[i == (ii-3) ? 1 : i], "/");
-					if (indices.size() >= 1)	//er is een positie
+					if (!indices.empty())	//er is een positie
 						vertex.position = atoi(indices[0].c_str()) - 1;
 					if(indices.size() == 2)		//alleen texture
 						vertex.texcoord = atoi(indices[1].c_str())-1;
 					if(indices.size() == 3)		//v/t/n of v//n
 					{
-						if( indices[1] != "")
+						if(!indices[1].empty())
 							vertex.texcoord = atoi(indices[1].c_str())-1;
 						vertex.normal = atoi(indices[2].c_str())-1;
 					}
@@ -156,14 +151,14 @@ ModelComponent::ModelComponent(const std::string &fileName)
         }
 		else if(params[0] == "usemtl")
 		{
-			if(currentGroup->faces.size() != 0)
-				groups.push_back(currentGroup);
+			if(!currentGroup->faces.empty())
+				groups_.push_back(currentGroup);
 			currentGroup = new ObjGroup();
 			currentGroup->materialIndex = -1;
 
-			for(size_t i = 0; i < materials.size(); i++)
+			for(size_t i = 0; i < materials_.size(); i++)
 			{
-				MaterialInfo* info = materials[i];
+				MaterialInfo* info = materials_[i];
 				if(info->name == params[1])
 				{
 					currentGroup->materialIndex = i;
@@ -171,39 +166,31 @@ ModelComponent::ModelComponent(const std::string &fileName)
 				}
 			}
 			if(currentGroup->materialIndex == -1)
-				std::cout<<"Could not find material name "<<params[1]<<std::endl;
+				std::cout<<"Could not find material name " << params[1] << '\n';
 		}
 	}
-	groups.push_back(currentGroup);
+	groups_.push_back(currentGroup);
 }
-
-
-ModelComponent::~ModelComponent(void)
-{
-}
-
-
-
 
 void ModelComponent::draw()
 {
-	for (auto& group : groups)
+	for (const auto& group : groups_)
 	{
-		if (!materials.empty() && materials[group->materialIndex]->texture)
+		if (!materials_.empty() && materials_[group->materialIndex]->texture)
 		{
-			materials[group->materialIndex]->texture->bind();
+			materials_[group->materialIndex]->texture->bind();
 
 			tigl::begin(GL_TRIANGLES);
 			for (auto& face : group->faces)
 			{
-				for (auto& vertex : face.vertices)
+				for (const auto& vertex : face.vertices)
 				{
-					tigl::addVertex(tigl::Vertex::PTN(vertices[vertex.position], texcoords[vertex.texcoord], normals[vertex.normal]));
+					tigl::addVertex(tigl::Vertex::PTN(vertices_[vertex.position], texcoords_[vertex.texcoord], normals_[vertex.normal]));
 				}
 			}
 			tigl::end();
 
-			materials[group->materialIndex]->texture->unbind();
+			materials_[group->materialIndex]->texture->unbind();
 		}
 		else
 		{
@@ -212,9 +199,9 @@ void ModelComponent::draw()
 			tigl::begin(GL_TRIANGLES);
 			for (auto& face : group->faces)
 			{
-				for (auto & vertex : face.vertices)
+				for (const auto & vertex : face.vertices)
 				{
-					tigl::addVertex(tigl::Vertex::PC(vertices[vertex.position], glm::vec4(0.3f, 0.5f, 0.9f, 1)));
+					tigl::addVertex(tigl::Vertex::PC(vertices_[vertex.position], glm::vec4(0.3f, 0.5f, 0.9f, 1)));
 				}
 			}
 			tigl::end();
@@ -226,22 +213,22 @@ void ModelComponent::draw()
 
 void ModelComponent::loadMaterialFile( const std::string &fileName, const std::string &dirName )
 {
-	std::cout << "Loading " << fileName << std::endl;
+	std::cout << "Loading " << fileName << '\n';
 	std::ifstream pFile(fileName.c_str());
 	if (!pFile.is_open())
 	{
-		std::cout << "Could not open file " << fileName << std::endl;
+		std::cout << "Could not open file " << fileName << '\n';
 		return;
 	}
 
-	MaterialInfo* currentMaterial = NULL;
+	MaterialInfo* currentMaterial = nullptr;
 
 	while(!pFile.eof())
 	{
 		std::string line;
 		std::getline(pFile, line);
 		line = cleanLine(line);
-		if(line == "" || line[0] == '#')
+		if(line.empty() || line[0] == '#')
 			continue;
 
 		std::vector<std::string> params = split(line, " ");
@@ -249,9 +236,9 @@ void ModelComponent::loadMaterialFile( const std::string &fileName, const std::s
 
 		if(params[0] == "newmtl")
 		{
-			if(currentMaterial != NULL)
+			if(currentMaterial != nullptr)
 			{
-				materials.push_back(currentMaterial);
+				materials_.push_back(currentMaterial);
 			}
 			currentMaterial = new MaterialInfo();
 			currentMaterial->name = params[1];
@@ -259,10 +246,10 @@ void ModelComponent::loadMaterialFile( const std::string &fileName, const std::s
 		else if(params[0] == "map_kd")
 		{
 			std::string tex = params[1];
-			if (tex.find("/"))
-				tex = tex.substr(tex.rfind("/") + 1);
-			if (tex.find("\\"))
-				tex = tex.substr(tex.rfind("\\") + 1);
+			if (tex.find('/'))
+				tex = tex.substr(tex.rfind('/') + 1);
+			if (tex.find('\\'))
+				tex = tex.substr(tex.rfind('\\') + 1);
 			//TODO
 			currentMaterial->texture = new Texture(dirName + "/" + tex);
 		} 
@@ -293,16 +280,16 @@ void ModelComponent::loadMaterialFile( const std::string &fileName, const std::s
 			//these values are usually not used for rendering at this time, so ignore them
 		}
 		else
-			std::cout<<"Didn't parse "<<params[0]<<" in material file"<<std::endl;
+			std::cout<<"Didn't parse "<<params[0]<<" in material file"<< '\n';
 	}
-	if(currentMaterial != NULL)
-		materials.push_back(currentMaterial);
+	if(currentMaterial != nullptr)
+		materials_.push_back(currentMaterial);
 
 }
 
 ModelComponent::MaterialInfo::MaterialInfo()
 {
-	texture = NULL;
+	texture = nullptr;
 }
 
 

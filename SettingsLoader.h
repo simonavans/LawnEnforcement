@@ -17,6 +17,6 @@ public:
 
 	Settings get() const;
 private:
-	Settings readFile(const std::string& fileName) const;
+	static Settings readFile(const std::string& fileName);
 };
 

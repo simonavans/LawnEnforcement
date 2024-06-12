@@ -92,50 +92,61 @@ LawnTileComponent::LawnTileComponent(
 void LawnTileComponent::draw()
 {
 	tigl::shader->enableColorMult(true);
-	if (mowed || reserved)
-		tigl::shader->setColorMult(glm::vec4(0.4f, 0.6f, 0.4f, 1));
-	else if (selected && !mowed && !reserved)
-		tigl::shader->setColorMult(glm::vec4(0.4f, 0.3f, 0.4f, 1));
-	else
-		tigl::shader->setColorMult(glm::vec4(0.5f, greenMult_, 0.5f, 1));
 
+	constexpr glm::vec4 mowedGrassColor(0.4f, 0.6f, 0.4f, 1);
+	constexpr glm::vec4 selectedGrassColor(0.4f, 0.3f, 0.4f, 1);
+	const glm::vec4 unmowedGrassColor(0.5f, greenMult_, 0.5f, 1);
+
+	// Set grass color multiplier
+	if (mowed)
+		tigl::shader->setColorMult(mowedGrassColor);
+	else if (selected && !mowed)
+		tigl::shader->setColorMult(selectedGrassColor);
+	else
+		tigl::shader->setColorMult(unmowedGrassColor);
+
+	constexpr int mineTexture = 10;
+	constexpr int flagTexture = 9;
+	constexpr int grassTexture = 0;
+
+	// Bind textures
 	if (mowed && tileType == TILE_TYPE_MINE)
-		digitTextures_->at(10)->bind();
+		digitTextures_->at(mineTexture)->bind();
 	else if (flagged)
-		digitTextures_->at(9)->bind();
-	else if ((mowed || reserved) && tileType != TILE_TYPE_MINE)
+		digitTextures_->at(flagTexture)->bind();
+	else if (mowed && tileType != TILE_TYPE_MINE)
 		digitTextures_->at(tileType)->bind();
 	else
-		digitTextures_->at(0)->bind();
+		digitTextures_->at(grassTexture)->bind();
 
-	if (mowed || reserved)
+	// Draw verts
+	if (mowed)
 		tigl::drawVertices(GL_QUADS, unmowedVerts_);
 	else
 		tigl::drawVertices(GL_QUADS, mowedVerts_);
 
-	if (flagged)
-		digitTextures_->at(9)->unbind();
-	else if ((mowed || reserved) && tileType != TILE_TYPE_MINE)
+	// Unbind textures
+	if (mowed && tileType == TILE_TYPE_MINE)
+		digitTextures_->at(mineTexture)->unbind();
+	else if (flagged)
+		digitTextures_->at(flagTexture)->unbind();
+	else if (mowed && tileType != TILE_TYPE_MINE)
 		digitTextures_->at(tileType)->unbind();
 	else
-		digitTextures_->at(0)->unbind();
+		digitTextures_->at(grassTexture)->unbind();
 
 	tigl::shader->enableColorMult(false);
 }
 
-bool LawnTileComponent::onClick(const TileAction action)
+void LawnTileComponent::onClick(const TileAction action)
 {
-	bool bombExploded = false;
 	switch (action)
 	{
 	case TILE_ACTION_MOW:
-		if (tileType == TILE_TYPE_MINE && !mowed)
-			bombExploded = true;
 		mowed = true;
-		return bombExploded;
+		break;
 	case TILE_ACTION_FLAG:
 		flagged = !flagged;
-		return false;
+		break;
 	}
-	return false;
 }

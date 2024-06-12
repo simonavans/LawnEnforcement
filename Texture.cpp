@@ -18,8 +18,8 @@ Texture::Texture(const std::string& fileName)
 	}
 	std::cout << "Loaded texture " << fileName.c_str() << '\n';
 
-	glGenTextures(1, &textureId);
-	glBindTexture(GL_TEXTURE_2D, textureId);
+	glGenTextures(1, &textureId_);
+	glBindTexture(GL_TEXTURE_2D, textureId_);
 	glTexImage2D(
 		GL_TEXTURE_2D,
 		0,
@@ -44,7 +44,7 @@ Texture::Texture(const std::string& fileName)
 void Texture::bind() const
 {
 	tigl::shader->enableTexture(true);
-	glBindTexture(GL_TEXTURE_2D, textureId);
+	glBindTexture(GL_TEXTURE_2D, textureId_);
 }
 
 void Texture::unbind()

@@ -4,6 +4,7 @@
 #include "GameObject.h"
 #include "SettingsLoader.h"
 
+class LawnTileComponent;
 class Texture;
 class Scene;
 struct GLFWwindow;
@@ -12,13 +13,13 @@ class FirstPersonCamera;
 class Game
 {
 	GLFWwindow* window_;
-	std::shared_ptr<GameObject> wieldingCube1_, wieldingCube2_;
+	std::shared_ptr<GameObject> lawnMowerTool_, flagTool_;
 	std::shared_ptr<FirstPersonCamera> camera_;
 	Settings settings_;
 	bool gameOver_ = false;
 	bool gameWon_ = false;
 public:
-	std::shared_ptr<GameObject> equippedCube;
+	std::shared_ptr<GameObject> equippedTool;
 	std::shared_ptr<Scene> scene;
 
 	Game(GLFWwindow* window, Settings settings);
@@ -26,5 +27,7 @@ public:
 	void draw() const;
 	void swapTools();
 
-	std::shared_ptr<FirstPersonCamera> getCamera() const;
+private:
+	static glm::vec3 getCameraForwardPos(glm::vec3 cameraPos, glm::vec2 cameraRot);
+	void handleClick(const std::shared_ptr<LawnTileComponent>& lawnTile);
 };
