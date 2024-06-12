@@ -35,7 +35,7 @@ Game::Game(GLFWwindow* window, Settings settings) : window_(window), settings_(s
 	scene = std::make_shared<Scene>(this, extraObjects, settings);
 }
 
-void Game::update(const float deltaTime) const
+void Game::update(const float deltaTime)
 {
 	camera_->update(window_, deltaTime);
 
@@ -56,7 +56,6 @@ void Game::update(const float deltaTime) const
 	static int clickCode;
 
 	int correctFlagsPlaced = 0;
-	bool gameOver = false;
 	for (const auto& object : scene->objects)
 	{
 		const auto lawnTile = object->getComponent<LawnTileComponent>();
@@ -75,7 +74,7 @@ void Game::update(const float deltaTime) const
 				if (equippedCube == wieldingCube1_)
 				{
 					if (lawnTile->onClick(TILE_ACTION_MOW))
-						gameOver = true;
+						gameOver_ = true;
 				}
 				else if (equippedCube == wieldingCube2_ && !lawnTile->mowed && !lawnTile->reserved)
 					lawnTile->onClick(TILE_ACTION_FLAG);
@@ -88,7 +87,7 @@ void Game::update(const float deltaTime) const
 			lawnTile->selected = false;
 	}
 
-	if (gameOver)
+	if (gameOver_)
 	{
 		for (const auto& row : scene->lawnTiles2D)
 			for (const auto& tile : row)
@@ -97,13 +96,13 @@ void Game::update(const float deltaTime) const
 	
 	if (correctFlagsPlaced == settings_.mines)
 	{
-		bool gameWon = true;
+		gameWon_ = true;
 		for (const auto& row : scene->lawnTiles2D)
 			for (const auto& tile : row)
 				if (tile->tileType != TILE_TYPE_NONE && tile->tileType != TILE_TYPE_MINE && !tile->mowed && !tile->reserved)
-					gameWon = false;
+					gameWon_ = false;
 
-		if (gameWon)
+		if (gameWon_)
 			for (const auto& row : scene->lawnTiles2D)
 				for (const auto& tile : row)
 					tile->mowed = true;
@@ -114,6 +113,14 @@ void Game::update(const float deltaTime) const
 
 void Game::draw() const
 {
+	if (gameWon_)
+		glClearColor(0.3f, 0.9f, 0.4f, 1.0f);
+	else if (gameOver_)
+		glClearColor(0.9f, 0.3f, 0.2f, 1.0f);
+	else
+		glClearColor(0.3f, 0.4f, 0.6f, 1.0f);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
 	int viewport[4];
 	glGetIntegerv(GL_VIEWPORT, viewport);
 	const glm::mat4 projectionMatrix = glm::perspective(
