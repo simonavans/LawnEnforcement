@@ -16,7 +16,7 @@
 
 Game::Game(GLFWwindow* window, Settings settings) : window_(window), settings_(settings)
 {
-	camera_ = std::make_shared<FirstPersonCamera>(window);
+	camera_ = std::make_shared<FirstPersonCamera>(window, settings);
 
 	// Instantiate tools
 	std::vector<std::shared_ptr<GameObject>> tools;

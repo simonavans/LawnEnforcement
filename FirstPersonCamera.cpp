@@ -3,7 +3,8 @@
 #include <GLFW/glfw3.h>
 #include <glm/ext/matrix_transform.hpp>
 
-FirstPersonCamera::FirstPersonCamera(GLFWwindow* window)
+FirstPersonCamera::FirstPersonCamera(GLFWwindow* window, const Settings& settings)
+	: settings_(settings)
 {
 	glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 	if (glfwRawMouseMotionSupported())
@@ -56,6 +57,21 @@ glm::vec2 FirstPersonCamera::getRotation() const
 
 void FirstPersonCamera::move(const float angle, const float fac)
 {
+	const glm::vec3 oldPos = position_;
 	position_.x += cos(rotation_.y + glm::radians(angle)) * fac;
 	position_.z += sin(rotation_.y + glm::radians(angle)) * fac;
+
+	if (!isInBounds())
+		position_ = oldPos;
+}
+
+bool FirstPersonCamera::isInBounds() const
+{
+	// Correction that makes up for the tiles that overflow the bounds (0, 10).
+	// Value is equal to the x and z size of a tile.
+	constexpr float correction = 0.49f;
+	return position_.x < correction &&
+		position_.z < correction &&
+		position_.x > -static_cast<float>(settings_.mapSize) + correction &&
+		position_.z > -static_cast<float>(settings_.mapSize) + correction;
 }
