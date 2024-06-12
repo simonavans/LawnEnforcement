@@ -7,7 +7,7 @@ mowing activities, since they have installed mines all over your lawn! Get ready
 in the game where Minesweeper meets gardening chores!
 
 # Controls
-The game is controlled in first person mode. Look around by moving the mouse.
+The game is controlled in first person mode. Look around by moving the mouse. Control your movements with wasd.
 
 The player can work with two Minesweeper tools: the lawn mower and the flag. Only one tool can be wielded at any
 time. The player starts off with the lawn mower equipped. With this tool, lawn tiles can be clicked to reveal their
