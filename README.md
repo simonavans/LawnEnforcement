@@ -28,3 +28,6 @@ More info on [wikipedia](https://en.wikipedia.org/wiki/Minesweeper_(video_game))
 
 # Game settings
 The game settings, such as map size, can be changed by editing the text-file inside the `config` directory.
+
+# Unit tests
+Unit tests are enabled in debug mode. By running the program, the result of each unit test will be written to `unit_tests/result.txt`. Note that all of the game settings must have their default values set for the unit tests to execute successfully. Unit tests can be disabled by running the program in release mode.

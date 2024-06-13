@@ -7,6 +7,10 @@
 #include "Game.h"
 #include "SettingsLoader.h"
 
+#ifdef _DEBUG
+#include "UnitTests.h"
+#endif
+
 #pragma comment(lib, "glfw3.lib")
 #pragma comment(lib, "glew32s.lib")
 #pragma comment(lib, "opengl32.lib")
@@ -23,6 +27,13 @@ void resizeWindow(GLFWwindow* window, int width, int height);
 
 int main()
 {
+#ifdef _DEBUG
+	// Only run in debug mode.
+	// Note: running unit tests has no effect if the game settings file
+	// does not have its default values configured.
+	UnitTests::runAllTests();
+#endif
+
 	if (!glfwInit())
 		throw std::runtime_error("Could not initialize glfw");
 
@@ -62,6 +73,7 @@ int main()
 	const SettingsLoader sl("config/game_settings.txt");
 	game = std::make_shared<Game>(window, sl.get());
 
+	// Main loop
 	while (!glfwWindowShouldClose(window))
 	{
 		update();

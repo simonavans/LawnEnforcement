@@ -53,13 +53,6 @@ void SettingsLoader::readFile(const std::string& fileName)
 		}
 	}
 
-	if (settings.mapSize <= 0)
-	{
-		settings.mapSize = 10;
-		settings_ = settings;
-		throw std::invalid_argument("Map size cannot be <= 0, resetting map size to default value of 10");
-	}
-
 	if (settings.mines <= 0)
 	{
 		settings.mines = 15;

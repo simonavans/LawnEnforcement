@@ -142,6 +142,7 @@
     <ClCompile Include="SettingsLoader.cpp" />
     <ClCompile Include="Texture.cpp" />
     <ClCompile Include="tigl.cpp" />
+    <ClCompile Include="UnitTests.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Component.h" />
@@ -160,6 +161,7 @@
     <ClInclude Include="tigl.h" />
     <ClInclude Include="TileAction.h" />
     <ClInclude Include="TileType.h" />
+    <ClInclude Include="UnitTests.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
