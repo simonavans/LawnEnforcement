@@ -6,6 +6,8 @@ up dozens of angered people in the process.
 mowing activities, since they have installed mines all over your lawn! Get ready to test your mine defusing skills
 in the game where Minesweeper meets gardening chores!
 
+Find the showcase video on [YouTube](https://www.youtube.com/watch?v=a7ECmH7Ih2Y).
+
 # Controls
 The game is controlled in first person mode. Look around by moving the mouse. Control your movements with the w, a,
 s and d keys.
@@ -31,3 +33,25 @@ The game settings, such as map size, can be changed by editing the text-file ins
 
 # Unit tests
 Unit tests are enabled in debug mode. By running the program, the result of each unit test will be written to `unit_tests/result.txt`. Note that all of the game settings must have their default values set for the unit tests to execute successfully. Unit tests can be disabled by running the program in release mode.
+
+# Table of criteria (in Dutch)
+
+| Criterium                                                                                                                                                          | Voldaan | Bestand/klasse (evt regelnummer)                                                                                             |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------- | ---------------------------------------------------------------------------------------------------------------------------- |
+| De code bevat geen overbodige \#defines en bevat geen magische constanten.                                                                                         | Ja      | N.v.t.                                                                                                                       |
+| Gebruik maken van OO-principes in C++, zoals gebruik van klassen met constructors en destructors, polymorfisme en/of inheritance.                                  | Ja      | Klassen GameObject, Component en overervende klassen                                                                         |
+| De code gebruikt op ten minste 1 plek op een zinnige wijze van overerving en virtuele<br>functie(s).                                                               | Ja      | Bijvoorbeeld klasse DrawComponent                                                                                            |
+| De code heeft ten minste 1 unit-test waarbij het resultaat in een bestand wordt weggeschreven.                                                                     | Ja      | UnitTests.cpp                                                                                                                |
+| Met behulp van FileIO, bestanden kunnen lezen en schrijven.                                                                                                        | Ja      | Klasse SettingsLoader                                                                                                        |
+| Toepassen van standaard datastructuren in C++.                                                                                                                     | Ja      | Scene.cpp, constructor, vanaf regel 14                                                                                       |
+| Gebruik maken van streams.                                                                                                                                         | Ja      | SettingsLoader.cpp, constructor, regels 16 en 20.                                                                            |
+| Rekening gehouden met het voorkomen van memory leaks.                                                                                                              | Ja      | Zie criterium 'Smart pointers'                                                                                               |
+| Zinnige foutmeldingen mocht er iets fout gaan, afhandeling via exceptions.                                                                                         | Ja      | SettingsLoader.cpp, functie readFile(), regels 36, 60, 67, 74 en 81.                                                         |
+| Gebruik maken van C++ standaard, dus niet op C manier alloceren.                                                                                                   | Ja      | Zie criterium 'Smart pointers'                                                                                               |
+| Weloverwogen gebruik van algoritmes binnen de applicatie (zowel zelfgeschreven alsmede de STL-bibliotheek).                                                        | Ja      | Scene.cpp, functie generateLawn(), vanaf regel 69                                                                            |
+| Smart pointers.                                                                                                                                                    | Ja      | Bijvoorbeeld Game.cpp, constructor, vanaf regel 17                                                                           |
+| Gebruik maken van Template Metaprogramming.                                                                                                                        | Ja      | Klasse GameObject, functies removeComponent() en getComponent()                                                              |
+| Ervoor zorgen dat je programma const, constexpr en override correct is.                                                                                            | Ja      | Overrides: bijvoorbeeld klasse DrawComponent. Const en constexpr: bijvoorbeeld Scene.cpp, regels 104, 105 en regels 116, 117 |
+| Lambda expressies, denk hierbij ook aan een typedef.                                                                                                               | Ja      | LawnEnforcement.cpp, regels 40 en 44                                                                                         |
+| Pointer to implementation, scherm een structure of klasse af.                                                                                                      | Ja      | Game.h, attribuut equippedTool (regel 22) en het gebruik ervan (Game.cpp, functie swapTools(), vanaf regel 124)              |
+| De code voldoet aantoonbaar aan andere, wenselijke (kwaliteit verhogende) en gespecificeerde criteria. (Zinvol commentaar en het gebruik van een static variabele) | Ja      | Zinvol commentaar: bijvoorbeeld Scene.cpp, functie generateLawn(), vanaf regel 69. Static variabele: Game.cpp, regel 152.    |
